@@ -1,15 +1,22 @@
-const express = require('express')
-const app = express()
-const port = 5000
-const connection = require('./database/connection')
-const morgan=require('morgan')
+const express = require("express");
+const app = express();
+const port = 5000;
+const connection = require("./database/connection");
+const morgan = require("morgan");
 connection();
 
+const dotenv = require("dotenv");
+dotenv.config({ path: "config.env" });
+
 // log requests
-app.use(morgan('tiny'));
+app.use(morgan("tiny"));
 
-app.use(express.json())
-const articlesRoutes = require('./routes/article')
-app.use('/api/articles/', articlesRoutes)
+app.use(express.json());
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+const articlesRoutes = require("./routes/article");
+const registerRoute = require("./routes/register");
+
+app.use("/api/articles", articlesRoutes);
+app.use("/api/register", registerRoute);
+
+app.listen(port, () => console.log(`Example app listening on port ${port}!`));

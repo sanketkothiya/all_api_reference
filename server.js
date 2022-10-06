@@ -15,8 +15,10 @@ app.use(express.json());
 
 const articlesRoutes = require("./routes/article");
 const registerRoute = require("./routes/register");
+const loginRoute = require("./routes/login");
 
 app.use("/api/articles", articlesRoutes);
 app.use("/api/register", registerRoute);
+app.use("/api/login", loginRoute);
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));

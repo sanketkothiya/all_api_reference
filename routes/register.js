@@ -2,7 +2,7 @@ const router = require("express").Router();
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-
+const Refresh = require('../models/refresh')
 router.post("/", (req, res) => {
   // Authorize request
 
@@ -39,13 +39,30 @@ router.post("/", (req, res) => {
               name: user.name,
               email: user.email,
             },
-            process.env.JWT_SECRET
+            process.env.JWT_SECRET, { expiresIn: '1h' }
           );
 
-          return res.send({
-            accessToken: accessToken,
-            type: "Bearer",
-          });
+          // refresh token
+          const refreshToken = jwt.sign(
+            {
+              id: user._id,
+              name: user.name,
+              email: user.email,
+            },
+            process.env.REFRESH_SECRET
+          );
+
+          new Refresh({
+            token: refreshToken
+
+          }).save().then(() => {
+            return res.send({
+              accessToken: accessToken,
+              refreshToken: refreshToken,
+              type: "Bearer",
+            });
+
+          })
         })
         .catch((err) => {
           return res.status(500).send({ error: "something went wrong" });

@@ -17,11 +17,15 @@ const articlesRoutes = require("./routes/article");
 const registerRoute = require("./routes/register");
 const loginRoute = require("./routes/login");
 const userRoute = require('./routes/user');
+const refreshRoute = require('./routes/refresh');
+const logoutRoute = require('./routes/logout')
 
 
 app.use("/api/articles", articlesRoutes);
 app.use("/api/register", registerRoute);
 app.use("/api/login", loginRoute);
 app.use("/api/user", userRoute);
+app.use("/api/refresh", refreshRoute);
+app.use("/api/logout", logoutRoute);
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));

@@ -28,7 +28,7 @@ router.post("/", (req, res) => {
               name: User.name,
               email: User.email,
             },
-            process.env.JWT_SECRET
+            process.env.JWT_SECRET, { expiresIn: '30s' }
           )
           return res.send({
             accessToken: accessToken,
